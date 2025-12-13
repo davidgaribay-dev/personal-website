@@ -8,67 +8,65 @@ const sortedProjects = projects.sort((a, b) => b.data.order - a.data.order);
 
 <BaseLayout title="David Garibay's Projects - Playwright & Selenium Automation Frameworks" description="Test automation frameworks and web applications built by David Garibay using Playwright, Selenium, TypeScript, Python, and modern web technologies.">
   <div class="min-h-screen py-24 px-6">
-    <div class="container mx-auto max-w-6xl">
+    <div class="container mx-auto max-w-5xl">
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-6xl font-bold mb-4">Projects</h1>
         <p class="text-text-secondary text-lg md:text-xl">Automation frameworks, web applications, and tools I've created</p>
       </div>
 
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div class="space-y-16">
         {sortedProjects.map(async (project) => {
           const { Content } = await project.render();
           return (
-            <article class="bg-zen-bg-secondary rounded-lg overflow-hidden hover:bg-zen-bg-tertiary transition-colors border border-zen-subtle">
+            <article class="border-b border-zen-subtle pb-16 last:border-0">
               {project.data.image && (
-                <img
-                  src={project.data.image}
-                  alt={project.data.title}
-                  class="w-full h-48 object-cover"
-                />
+                <div class="mb-8">
+                  <img
+                    src={project.data.image}
+                    alt={project.data.title}
+                    class="w-full h-auto object-cover"
+                  />
+                </div>
               )}
 
-              <div class="p-6">
-                <div class="flex items-start justify-between mb-3">
-                  <h2 class="text-xl font-semibold">{project.data.title}</h2>
-                  {project.data.featured && (
-                    <span class="px-2 py-1 bg-zen-coral-muted text-zen-coral text-xs rounded-full">
-                      Featured
-                    </span>
-                  )}
-                </div>
+              <div class="flex justify-between items-start mb-4">
+                <h2 class="text-3xl font-bold">{project.data.title}</h2>
+                {project.data.featured && (
+                  <span class="text-zen-coral text-sm font-medium">Featured</span>
+                )}
+              </div>
 
-                <p class="text-text-secondary mb-4 line-clamp-3">
-                  {project.data.description}
-                </p>
+              <p class="text-text-secondary text-lg mb-6 leading-relaxed max-w-3xl">
+                {project.data.description}
+              </p>
 
-                <div class="flex flex-wrap gap-2 mb-4">
-                  {project.data.technologies.map((tech) => (
-                    <span class="px-2 py-1 bg-zen-subtle text-text-secondary text-xs rounded">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+              <div class="flex flex-wrap gap-3 mb-8">
+                {project.data.technologies.map((tech) => (
+                  <span class="text-text-tertiary text-sm">
+                    {tech}
+                  </span>
+                ))}
+              </div>
 
-                <div class="flex gap-3">
+              <div class="flex gap-6 flex-wrap">
+                <a
+                  href={project.data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-text-primary hover:text-text-secondary transition-colors text-lg font-medium underline underline-offset-4"
+                >
+                  View Project
+                </a>
+                {project.data.github && (
                   <a
-                    href={project.data.link}
+                    href={project.data.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-zen-coral hover:text-zen-coral-hover transition-colors text-sm font-medium"
+                    class="text-text-primary hover:text-text-secondary transition-colors text-lg font-medium underline underline-offset-4"
                   >
-                    View Project →
+                    GitHub
                   </a>
-                  {project.data.github && (
-                    <a
-                      href={project.data.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium"
-                    >
-                      GitHub
-                    </a>
-                  )}
-                </div>
+                )}
               </div>
             </article>
           );

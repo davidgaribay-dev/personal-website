@@ -1,6 +1,6 @@
 ---
 name: "Jamie Pittman"
-title: "Software Engineer"
+title: "Senior Software Engineer & LinkedIn Learning Instructor"
 company: "Onna"
 linkedin: "https://www.linkedin.com/in/jamielynpittman"
 order: 3

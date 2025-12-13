@@ -6,7 +6,7 @@ const experiences = await getCollection('experience');
 const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order);
 ---
 
-<BaseLayout title="David Garibay's Work Experience - SDET at Nuna, Onna, TransLoc" description="Professional experience of David Garibay as Software Development Engineer in Test at leading tech companies including Nuna, Onna, and TransLoc. Expertise in test automation and QA.">
+<BaseLayout title="David Garibay's Work Experience - Senior SDET at SAS" description="Professional experience of David Garibay as Senior Software Development Engineer in Test at SAS and other leading tech companies. Expertise in test automation, quality engineering, and CI/CD.">
   <div class="min-h-screen py-24 px-6">
     <div class="container mx-auto max-w-4xl">
       <div class="text-center mb-16">
@@ -14,34 +14,54 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
         <p class="text-text-secondary text-lg md:text-xl">My professional journey in software testing and automation</p>
       </div>
 
-      <div class="space-y-12">
+      <div class="space-y-8">
         {sortedExperiences.map(async (exp) => {
           const { Content } = await exp.render();
+
+          // Calculate total duration
+          const startDate = new Date(exp.data.startDate);
+          const endDate = exp.data.endDate ? new Date(exp.data.endDate) : new Date();
+          const monthsDiff = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+          const years = Math.floor(monthsDiff / 12);
+          const months = monthsDiff % 12;
+          const duration = years > 0
+            ? `${years} yr${years > 1 ? 's' : ''} ${months > 0 ? `${months} mo${months > 1 ? 's' : ''}` : ''}`
+            : `${months} mo${months > 1 ? 's' : ''}`;
+
           return (
-            <article class="border-l-4 border-zen-coral pl-8 pb-8">
-              <div class="mb-4">
-                <h2 class="text-2xl font-semibold mb-2">{exp.data.position}</h2>
+            <article class="bg-zen-bg p-8 experience-card">
+              <div class="mb-6">
                 <a
                   href={exp.data.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-zen-coral hover:text-zen-coral-hover transition-colors text-lg"
+                  class="text-zen-coral hover:text-zen-coral-hover transition-colors text-2xl font-bold inline-block"
                 >
-                  {exp.data.company} →
+                  {exp.data.company}
                 </a>
-                <p class="text-text-secondary mt-2">
-                  {exp.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} -
-                  {exp.data.endDate ? exp.data.endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present'}
+                <p class="text-text-tertiary mt-2 text-sm">
+                  Full-time · {duration}
                 </p>
               </div>
 
-              <div class="prose prose-invert max-w-none mb-6">
+              <div class="experience-content">
+                <!-- Fallback for companies without promotions in markdown -->
+                {!exp.body.includes('**') && (
+                  <p>
+                    <strong>{exp.data.position}</strong>
+                    <em>
+                      {exp.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} -
+                      {exp.data.endDate ? exp.data.endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present'}
+                    </em>
+                  </p>
+                )}
+
                 <Content />
               </div>
 
-              <div class="flex flex-wrap gap-2">
+              <div class="flex flex-wrap gap-2 pl-[3rem] mt-6">
                 {exp.data.technologies.map((tech) => (
-                  <span class="px-3 py-1 bg-zen-subtle text-text-secondary text-sm rounded-full border border-text-tertiary/20">
+                  <span class="px-3 py-1.5 bg-zen-subtle text-text-secondary text-xs font-medium rounded-md">
                     {tech}
                   </span>
                 ))}
@@ -53,3 +73,53 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .experience-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .experience-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .experience-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.experience-card');
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          // Stagger the animation slightly for each card
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  });
+</script>

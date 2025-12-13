@@ -12,6 +12,7 @@ technologies:
   - Python
   - Django
   - AWS
+  - Shift Left
 order: 5
 ---
 

@@ -8,38 +8,40 @@ const sortedRecommendations = recommendations.sort((a, b) => a.data.order - b.da
 
 <BaseLayout title="Professional Recommendations for David Garibay - SDET Testimonials" description="Professional recommendations and testimonials for David Garibay from colleagues and managers. Read what others say about working with David.">
   <div class="min-h-screen py-24 px-6">
-    <div class="container mx-auto max-w-5xl">
+    <div class="container mx-auto max-w-4xl">
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-6xl font-bold mb-4">Recommendations</h1>
         <p class="text-text-secondary text-lg md:text-xl">What colleagues and managers say about working with me</p>
       </div>
 
-      <div class="grid gap-8 md:grid-cols-2">
+      <div class="space-y-8">
         {sortedRecommendations.map(async (rec) => {
           const { Content } = await rec.render();
           return (
-            <article class="bg-zen-bg-secondary rounded-lg p-8 border border-zen-subtle hover:border-zen-coral/30 transition-colors">
-              <div class="mb-6">
-                <svg class="w-8 h-8 text-zen-coral mb-4" fill="currentColor" viewBox="0 0 24 24">
+            <article class="bg-zen-bg p-8 recommendation-card">
+              <div class="relative">
+                <svg class="w-8 h-8 text-zen-coral opacity-30 mb-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
 
-                <div class="prose prose-invert max-w-none text-text-primary mb-6">
+                <div class="prose prose-invert max-w-none text-text-secondary leading-relaxed mb-8">
                   <Content />
                 </div>
-              </div>
 
-              <div class="border-t border-zen-subtle pt-4">
-                <a
-                  href={rec.data.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block hover:text-zen-coral transition-colors"
-                >
-                  <p class="font-semibold text-text-primary">{rec.data.name}</p>
-                  <p class="text-text-secondary text-sm">{rec.data.title}</p>
-                  <p class="text-text-tertiary text-sm">{rec.data.company}</p>
-                </a>
+                <div class="flex justify-end">
+                  <div class="text-right border-t border-zen-subtle pt-6 max-w-xs">
+                    <a
+                      href={rec.data.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-block hover:text-zen-coral-hover transition-colors"
+                    >
+                      <p class="text-xl font-bold text-zen-coral mb-1">{rec.data.name}</p>
+                    </a>
+                    <p class="text-text-secondary leading-snug text-base">{rec.data.title}</p>
+                    <p class="text-text-tertiary text-sm mt-1">{rec.data.company}</p>
+                  </div>
+                </div>
               </div>
             </article>
           );
@@ -48,3 +50,53 @@ const sortedRecommendations = recommendations.sort((a, b) => a.data.order - b.da
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .recommendation-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .recommendation-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .recommendation-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.recommendation-card');
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          // Stagger the animation slightly for each card
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  });
+</script>

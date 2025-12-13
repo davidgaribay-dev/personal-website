@@ -13,6 +13,7 @@ technologies:
   - Python
   - FastAPI
   - Google Cloud
+  - Shift Left
 order: 4
 ---
 

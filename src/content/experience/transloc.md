@@ -1,5 +1,5 @@
 ---
-company: "TransLoc"
+company: "TransLoc (Ford Motor Company)"
 position: "QA Automation Engineer"
 startDate: 2021-05-01
 endDate: 2022-05-01

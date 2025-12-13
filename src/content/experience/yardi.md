@@ -13,4 +13,12 @@ technologies:
 order: 2
 ---
 
-Tested a variety of different (mobile, web, and alexa) applications that are part of Yardi's real estate software product offerings.
+**QA Automation Engineer**
+*June 2019 - May 2021*
+
+Designed and implemented automated test frameworks using Selenium and C# for mobile, web, and Alexa applications across Yardi's real estate software product suite.
+
+**QA Specialist**
+*October 2018 - June 2019*
+
+Performed manual testing and quality assurance for real estate management applications, identifying defects and ensuring software quality standards.

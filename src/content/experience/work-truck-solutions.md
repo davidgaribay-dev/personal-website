@@ -13,4 +13,12 @@ technologies:
 order: 1
 ---
 
-Collaborated closely with developers to successfully meet release schedules using the agile methodology.
+**QA/QC Analyst**
+*August 2017 - September 2018*
+
+Promoted from Data Processing Specialist. Collaborated with developers to meet release schedules using agile methodology and developed automated test scripts using Selenium and C#.
+
+**Data Processing Specialist**
+*May 2017 - August 2017*
+
+Data entry and quality control for vehicle specification processing.

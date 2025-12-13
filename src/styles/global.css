@@ -6,18 +6,18 @@
   --font-family-serif: 'Instrument Serif', ui-serif, Georgia, Cambria, 'Times New Roman', serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
 
-  /* Light theme (default - matching Anthropic) */
-  --color-zen-bg: #fcfcf4;
-  --color-zen-bg-secondary: #f5f5ed;
-  --color-zen-bg-tertiary: #ebebde;
-  --color-zen-subtle: rgba(0, 0, 0, 0.04);
-  --color-zen-coral: #f76f53;
-  --color-zen-coral-hover: #ff8a70;
-  --color-zen-coral-muted: rgba(247, 111, 83, 0.15);
-  --color-accent-blue: #4A90E2;
+  /* Light theme (default - Evernote-inspired) */
+  --color-zen-bg: #ffffff;
+  --color-zen-bg-secondary: #f7f7f7;
+  --color-zen-bg-tertiary: #eeeeee;
+  --color-zen-subtle: rgba(0, 0, 0, 0.05);
+  --color-zen-coral: #00A82D;
+  --color-zen-coral-hover: #00c234;
+  --color-zen-coral-muted: rgba(0, 168, 45, 0.1);
+  --color-accent-blue: #0080FF;
 
-  --color-text-primary: #000000;
-  --color-text-secondary: #4a4a4a;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #5a5a5a;
   --color-text-tertiary: #8a8a8a;
 }
 
@@ -28,14 +28,14 @@
 
   /* Dark theme overrides */
   [data-theme="dark"] {
-    --color-zen-bg: #141413;
+    --color-zen-bg: #0f0f0f;
     --color-zen-bg-secondary: #1a1a1a;
-    --color-zen-bg-tertiary: #222222;
-    --color-zen-subtle: rgba(255, 255, 255, 0.06);
+    --color-zen-bg-tertiary: #262626;
+    --color-zen-subtle: rgba(255, 255, 255, 0.08);
 
-    --color-text-primary: #f5f5f5;
-    --color-text-secondary: #a0a0a0;
-    --color-text-tertiary: #666666;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #b0b0b0;
+    --color-text-tertiary: #707070;
   }
 
   body {
@@ -46,9 +46,82 @@
   }
 
   ::selection {
-    background-color: rgba(247, 111, 83, 0.3);
-    color: white;
+    background-color: rgba(0, 168, 45, 0.25);
+    color: #1a1a1a;
   }
+}
+
+/* Experience page - promotion styling */
+.experience-content {
+  position: relative;
+  padding-left: 3rem;
+}
+
+/* Timeline line connecting position titles only */
+.experience-content::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0.5rem;
+  width: 2px;
+  bottom: 0;
+  background-color: #d1d5db;
+}
+
+.experience-content > p {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Title paragraphs with position and dates */
+.experience-content > p:has(strong) {
+  margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.experience-content > p:has(strong):first-child {
+  margin-top: 0;
+}
+
+/* Gray circle dot - only on title paragraphs */
+.experience-content > p:has(strong)::before {
+  content: '';
+  position: absolute;
+  left: -3rem;
+  top: 0.25rem;
+  width: 12px;
+  height: 12px;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Description paragraphs */
+.experience-content > p:not(:has(strong)):not(:has(em)) {
+  margin-bottom: 2.5rem;
+  margin-left: 0;
+}
+
+.experience-content strong {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.experience-content em {
+  color: var(--color-text-tertiary);
+  font-style: normal;
+  font-size: 0.875rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.experience-content p:not(:has(strong)):not(:has(em)) {
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  font-size: 0.9375rem;
 }
 
 /* Reduced motion support */

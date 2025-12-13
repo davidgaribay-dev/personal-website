@@ -23,83 +23,51 @@ const featuredPosts = sortedNotes.filter(post => post.data.featured);
   <div class="min-h-screen py-24 px-6">
     <div class="container mx-auto max-w-4xl">
       <!-- Header -->
-      <div class="mb-20 text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-text-primary to-zen-coral bg-clip-text text-transparent">
-          Notes
-        </h1>
-        <p class="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
-          Thoughts on software testing, automation, development, and lessons learned along the way.
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Notes</h1>
+        <p class="text-text-secondary text-lg md:text-xl">
+          Thoughts on software testing, automation, development, and lessons learned along the way
         </p>
       </div>
 
       {/* All Posts Section */}
       {sortedNotes.length === 0 ? (
         <div class="text-center py-32">
-          <div class="text-8xl mb-8 animate-pulse">📝</div>
           <h2 class="text-3xl font-bold mb-4">No notes yet</h2>
           <p class="text-text-secondary text-lg">
             I'm working on some great content. Check back soon!
           </p>
         </div>
       ) : (
-        <div>
-          <h2 class="text-2xl font-bold mb-10 flex items-center gap-3">
-            <span class="text-zen-coral">—</span>
-            All Notes
-            <span class="text-text-secondary text-base font-normal">({sortedNotes.length})</span>
-          </h2>
-          <div class="space-y-6">
-            {sortedNotes.map((post, index) => (
-              <article class="group border-l-4 border-transparent hover:border-zen-coral pl-6 py-4 -ml-6 transition-all duration-300">
-                <a href={`/notes/${post.slug}`} class="block">
-                  <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-3 mb-3">
-                    <h3 class="text-2xl font-bold group-hover:text-zen-coral transition-colors">
-                      {post.data.title}
-                    </h3>
-                    <time class="text-sm text-text-secondary whitespace-nowrap font-mono">
-                      {post.data.publishDate.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                      })}
-                    </time>
-                  </div>
-                  <p class="text-text-secondary mb-4 leading-relaxed">
-                    {post.data.description}
-                  </p>
-                  <div class="flex flex-wrap gap-2">
-                    {post.data.tags.map((tag) => (
-                      <span class="px-3 py-1 bg-zen-subtle text-text-secondary text-xs rounded-full font-medium">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Tags Section - Only show if there are posts */}
-      {allTags.length > 0 && (
-        <div class="mt-24 pt-12">
-          <div class="flex items-center gap-3 mb-8">
-            <div class="h-px flex-1 bg-gradient-to-r from-transparent to-zen-subtle"></div>
-            <h2 class="text-lg font-bold text-text-secondary">Browse by Tag</h2>
-            <div class="h-px flex-1 bg-gradient-to-l from-transparent to-zen-subtle"></div>
-          </div>
-          <div class="flex flex-wrap gap-3 justify-center">
-            {allTags.map((tag) => {
-              const count = allNotes.filter(post => post.data.tags.includes(tag)).length;
-              return (
-                <button class="group px-5 py-2.5 bg-zen-bg-secondary border border-zen-subtle rounded-full text-sm hover:border-zen-coral hover:bg-zen-coral/5 transition-all duration-300">
-                  <span class="font-medium group-hover:text-zen-coral transition-colors">#{tag}</span>
-                  <span class="text-text-secondary ml-1.5">({count})</span>
-                </button>
-              );
-            })}
-          </div>
+        <div class="space-y-12">
+          {sortedNotes.map((post) => (
+            <article class="border-b border-zen-subtle pb-12 last:border-0">
+              <a href={`/notes/${post.slug}`} class="block group">
+                <div class="flex justify-between items-start mb-3">
+                  <h2 class="text-3xl font-bold group-hover:text-zen-coral transition-colors">
+                    {post.data.title}
+                  </h2>
+                  <time class="text-sm text-text-tertiary whitespace-nowrap ml-4">
+                    {post.data.publishDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </time>
+                </div>
+                <p class="text-text-secondary text-lg mb-6 leading-relaxed">
+                  {post.data.description}
+                </p>
+                <div class="flex flex-wrap gap-3">
+                  {post.data.tags.map((tag) => (
+                    <span class="text-text-tertiary text-sm">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </a>
+            </article>
+          ))}
         </div>
       )}
     </div>
