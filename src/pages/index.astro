@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get featured projects for preview
+const projects = await getCollection('projects');
+const featuredProjects = projects.filter(p => p.data.featured).sort((a, b) => b.data.order - a.data.order);
+
+// Get experience entries
+const experiences = await getCollection('experience');
+const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order);
+---
+
+<BaseLayout>
+  <div class="min-h-screen">
+    <!-- Hero Section -->
+    <section class="py-32 px-6 flex items-center justify-center min-h-[80vh]">
+      <div class="container mx-auto max-w-4xl text-center">
+        <!-- Profile Picture -->
+        <div class="flex justify-center mb-12 pb-6">
+          <img
+            src="/me.jpg"
+            alt="David Garibay"
+            class="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-2xl"
+          />
+        </div>
+
+        <!-- Text Content -->
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+          Hi, I'm <span class="text-zen-coral">David Garibay</span>
+        </h1>
+        <p class="text-lg md:text-xl text-text-secondary mb-10 max-w-3xl mx-auto leading-relaxed">
+          Software Development Engineer in Test specializing in automation frameworks with Playwright, Selenium, and Cypress.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a
+            href="/experience"
+            class="px-8 py-4 bg-text-primary text-zen-bg rounded-md hover:opacity-80 transition-all font-medium"
+          >
+            View Experience
+          </a>
+          <a
+            href="/projects"
+            class="px-8 py-4 border-2 border-text-primary text-text-primary rounded-md hover:bg-text-primary hover:text-zen-bg transition-all font-medium"
+          >
+            See Projects
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Projects Preview -->
+    <section class="py-24 px-6 bg-zen-bg">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center">Featured Projects</h2>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProjects.slice(0, 4).map((project) => (
+            <div class="bg-zen-bg-secondary border border-zen-subtle rounded-lg p-8 hover:shadow-lg transition-all">
+              <h3 class="text-xl font-semibold mb-3">{project.data.title}</h3>
+              <p class="text-text-secondary mb-6 leading-relaxed">{project.data.description}</p>
+              <div class="flex flex-wrap gap-2 mb-6">
+                {project.data.technologies.map((tech) => (
+                  <span class="px-3 py-1 bg-zen-subtle text-text-secondary text-xs rounded-full font-medium">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <a
+                href={project.data.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-text-primary hover:opacity-70 transition-opacity font-medium inline-flex items-center gap-1"
+              >
+                View Project <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Experience Preview -->
+    <section class="py-24 px-6 bg-zen-bg-secondary">
+      <div class="container mx-auto max-w-5xl">
+        <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center">Recent Experience</h2>
+        <div class="space-y-8">
+          {sortedExperiences.slice(0, 3).map((exp) => (
+            <div class="border-l-4 border-zen-coral pl-8 py-2">
+              <h3 class="text-2xl font-semibold mb-1">{exp.data.position}</h3>
+              <p class="text-zen-coral font-medium mb-2">{exp.data.company}</p>
+              <p class="text-text-secondary text-sm mb-4">
+                {exp.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} -
+                {exp.data.endDate ? exp.data.endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present'}
+              </p>
+              <div class="flex flex-wrap gap-2">
+                {exp.data.technologies.map((tech) => (
+                  <span class="px-3 py-1 bg-zen-subtle text-text-secondary text-sm rounded-full border border-text-tertiary/20">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="text-center mt-16">
+          <a
+            href="/experience"
+            class="inline-block text-zen-coral hover:text-zen-coral-hover transition-colors text-lg font-medium"
+          >
+            View All Experience <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const experiences = await getCollection('experience');
+const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order);
+---
+
+<BaseLayout title="Experience | David Garibay" description="My professional work history in software testing and quality assurance">
+  <div class="min-h-screen py-24 px-6">
+    <div class="container mx-auto max-w-4xl">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Experience</h1>
+        <p class="text-text-secondary text-lg md:text-xl">My professional journey in software testing and automation</p>
+      </div>
+
+      <div class="space-y-12">
+        {sortedExperiences.map(async (exp) => {
+          const { Content } = await exp.render();
+          return (
+            <article class="border-l-4 border-zen-coral pl-8 pb-8">
+              <div class="mb-4">
+                <h2 class="text-2xl font-semibold mb-2">{exp.data.position}</h2>
+                <a
+                  href={exp.data.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-zen-coral hover:text-zen-coral-hover transition-colors text-lg"
+                >
+                  {exp.data.company} →
+                </a>
+                <p class="text-text-secondary mt-2">
+                  {exp.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} -
+                  {exp.data.endDate ? exp.data.endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present'}
+                </p>
+              </div>
+
+              <div class="prose prose-invert max-w-none mb-6">
+                <Content />
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                {exp.data.technologies.map((tech) => (
+                  <span class="px-3 py-1 bg-zen-subtle text-text-secondary text-sm rounded-full border border-text-tertiary/20">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

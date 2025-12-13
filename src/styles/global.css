@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  /* Font families - Anthropic-inspired typography system */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-family-serif: 'Instrument Serif', ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Light theme (default - matching Anthropic) */
+  --color-zen-bg: #fcfcf4;
+  --color-zen-bg-secondary: #f5f5ed;
+  --color-zen-bg-tertiary: #ebebde;
+  --color-zen-subtle: rgba(0, 0, 0, 0.04);
+  --color-zen-coral: #f76f53;
+  --color-zen-coral-hover: #ff8a70;
+  --color-zen-coral-muted: rgba(247, 111, 83, 0.15);
+  --color-accent-blue: #4A90E2;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #4a4a4a;
+  --color-text-tertiary: #8a8a8a;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Dark theme overrides */
+  [data-theme="dark"] {
+    --color-zen-bg: #141413;
+    --color-zen-bg-secondary: #1a1a1a;
+    --color-zen-bg-tertiary: #222222;
+    --color-zen-subtle: rgba(255, 255, 255, 0.06);
+
+    --color-text-primary: #f5f5f5;
+    --color-text-secondary: #a0a0a0;
+    --color-text-tertiary: #666666;
+  }
+
+  body {
+    background-color: var(--color-zen-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: rgba(247, 111, 83, 0.3);
+    color: white;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

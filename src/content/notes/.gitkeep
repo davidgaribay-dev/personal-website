@@ -1,0 +1,29 @@
+# Notes Content
+
+This directory contains notes in Markdown format.
+
+## Creating a New Note
+
+1. Create a new `.md` file with a descriptive slug (e.g., `my-first-note.md`)
+2. Add frontmatter at the top:
+
+```markdown
+---
+title: "Your Note Title"
+description: "A brief summary of your note"
+publishDate: 2024-12-08
+updatedDate: 2024-12-09  # Optional
+tags: ["testing", "automation"]
+draft: false  # Set to true to hide from production
+featured: false  # Set to true to highlight on the main page
+---
+
+Your content here...
+```
+
+## Tips
+
+- Use `draft: true` while writing to prevent it from showing in production
+- Use `featured: true` for your best notes to highlight them
+- Tags are used for filtering and categorization
+- The slug becomes the URL (e.g., `my-first-note.md` → `/notes/my-first-note`)

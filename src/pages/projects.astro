@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => b.data.order - a.data.order);
+---
+
+<BaseLayout title="Projects | David Garibay" description="Automation frameworks and web projects I've built">
+  <div class="min-h-screen py-24 px-6">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Projects</h1>
+        <p class="text-text-secondary text-lg md:text-xl">Automation frameworks, web applications, and tools I've created</p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {sortedProjects.map(async (project) => {
+          const { Content } = await project.render();
+          return (
+            <article class="bg-zen-bg-secondary rounded-lg overflow-hidden hover:bg-zen-bg-tertiary transition-colors border border-zen-subtle">
+              {project.data.image && (
+                <img
+                  src={project.data.image}
+                  alt={project.data.title}
+                  class="w-full h-48 object-cover"
+                />
+              )}
+
+              <div class="p-6">
+                <div class="flex items-start justify-between mb-3">
+                  <h2 class="text-xl font-semibold">{project.data.title}</h2>
+                  {project.data.featured && (
+                    <span class="px-2 py-1 bg-zen-coral-muted text-zen-coral text-xs rounded-full">
+                      Featured
+                    </span>
+                  )}
+                </div>
+
+                <p class="text-text-secondary mb-4 line-clamp-3">
+                  {project.data.description}
+                </p>
+
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {project.data.technologies.map((tech) => (
+                    <span class="px-2 py-1 bg-zen-subtle text-text-secondary text-xs rounded">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div class="flex gap-3">
+                  <a
+                    href={project.data.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-zen-coral hover:text-zen-coral-hover transition-colors text-sm font-medium"
+                  >
+                    View Project →
+                  </a>
+                  {project.data.github && (
+                    <a
+                      href={project.data.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium"
+                    >
+                      GitHub
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
