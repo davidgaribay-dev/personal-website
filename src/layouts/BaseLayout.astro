@@ -27,6 +27,21 @@ const structuredData = {
   "image": `${siteConfig.url}/me.jpg`,
   "jobTitle": "Software Development Engineer in Test (SDET)",
   "description": description,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": siteConfig.location.city,
+    "addressRegion": siteConfig.location.region,
+    "addressCountry": siteConfig.location.country
+  },
+  "workLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": siteConfig.location.city,
+      "addressRegion": siteConfig.location.region,
+      "addressCountry": siteConfig.location.country
+    }
+  },
   "sameAs": [
     siteConfig.social.linkedin,
     siteConfig.social.github
@@ -56,7 +71,11 @@ const structuredData = {
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content="David Garibay" />
-    <meta name="keywords" content="David Garibay, SDET, Software Development Engineer in Test, Test Automation, Playwright, Selenium, Cypress, QA Engineer, Software Testing, Automation Framework" />
+    <meta name="keywords" content="David Garibay, SDET, Software Development Engineer in Test, Test Automation, Playwright, Selenium, Cypress, QA Engineer, Software Testing, Automation Framework, Raleigh NC, Durham NC, Chapel Hill NC, Raleigh-Durham-Chapel Hill Area, North Carolina" />
+    <meta name="geo.region" content="US-NC" />
+    <meta name="geo.placename" content="Raleigh-Durham-Chapel Hill Area" />
+    <meta name="geo.position" content="35.7796;-78.6382" />
+    <meta name="ICBM" content="35.7796, -78.6382" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />
