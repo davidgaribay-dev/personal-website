@@ -5,8 +5,8 @@ export const siteConfig = {
   url: 'https://davidgaribay.dev',
 
   social: {
-    github: 'https://github.com/davidgaribay0',
-    linkedin: 'https://www.linkedin.com/in/davidmg-dev/',
+    github: 'https://github.com/davidgaribay-dev',
+    linkedin: 'https://www.linkedin.com/in/david--garibay/',
   },
 
   navigation: [
