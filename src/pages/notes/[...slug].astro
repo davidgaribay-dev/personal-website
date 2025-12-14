@@ -35,54 +35,66 @@ const readingTime = Math.ceil(wordCount / 200);
 ---
 
 <BaseLayout>
-  <article class="min-h-screen py-24 px-6">
-    <div class="mx-auto max-w-3xl">
-      <!-- Back Link -->
-      <a
-        href="/notes"
-        class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-16 font-medium"
-      >
-        <span aria-hidden="true">←</span> Back to Notes
-      </a>
+  <article class="min-h-screen">
+    <!-- Hero Cover Image -->
+    {post.data.image && (
+      <div class="w-full mb-12">
+        <img
+          src={post.data.image}
+          alt={post.data.title}
+          class="w-full h-[500px] md:h-[600px] lg:h-[700px] object-cover"
+        />
+      </div>
+    )}
 
-      <!-- Article Header -->
-      <header class="mb-16">
-        <h1 class="text-4xl md:text-6xl font-bold mb-8 leading-tight tracking-tight">
-          {post.data.title}
-        </h1>
+    <div class="px-6 pb-24">
+      <div class="mx-auto max-w-3xl">
+        <!-- Back Link -->
+        <a
+          href="/notes"
+          class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-16 font-medium"
+        >
+          <span aria-hidden="true">←</span> Back to Notes
+        </a>
 
-        <div class="flex flex-wrap items-center gap-3 text-text-tertiary text-sm mb-8">
-          <time datetime={post.data.publishDate.toISOString()}>
-            {publishDate}
-          </time>
-          {readingTime > 0 && (
-            <>
-              <span aria-hidden="true">•</span>
-              <span>{readingTime} min read</span>
-            </>
-          )}
-          {updatedDate && (
-            <>
-              <span aria-hidden="true">•</span>
-              <span>Updated {updatedDate}</span>
-            </>
-          )}
-        </div>
+        <!-- Article Header -->
+        <header class="mb-16">
+          <h1 class="text-4xl md:text-6xl font-bold mb-8 leading-tight tracking-tight">
+            {post.data.title}
+          </h1>
 
-        <p class="text-xl text-text-secondary leading-relaxed font-light mb-8">
-          {post.data.description}
-        </p>
-
-        {post.data.tags.length > 0 && (
-          <div class="flex flex-wrap gap-3">
-            {post.data.tags.map((tag) => (
-              <span class="text-text-tertiary text-sm">
-                #{tag}
-              </span>
-            ))}
+          <div class="flex flex-wrap items-center gap-3 text-text-tertiary text-sm mb-8">
+            <time datetime={post.data.publishDate.toISOString()}>
+              {publishDate}
+            </time>
+            {readingTime > 0 && (
+              <>
+                <span aria-hidden="true">•</span>
+                <span>{readingTime} min read</span>
+              </>
+            )}
+            {updatedDate && (
+              <>
+                <span aria-hidden="true">•</span>
+                <span>Updated {updatedDate}</span>
+              </>
+            )}
           </div>
-        )}
-      </header>
+
+          <p class="text-xl text-text-secondary leading-relaxed font-light mb-8">
+            {post.data.description}
+          </p>
+
+          {post.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-3">
+              {post.data.tags.map((tag) => (
+                <span class="text-text-tertiary text-sm">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
 
       <!-- Article Content -->
       <div class="article-content">
@@ -156,12 +168,35 @@ const readingTime = Math.ceil(wordCount / 200);
   .article-content a {
     color: var(--color-zen-coral);
     text-decoration: none;
-    border-bottom: 1px solid rgba(247, 111, 83, 0.3);
-    transition: border-color 0.2s ease;
+    border-bottom: 1px solid transparent;
+    padding: 0.0625rem 0.125rem;
+    margin: 0 -0.125rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    display: inline-block;
   }
 
   .article-content a:hover {
-    border-bottom-color: var(--color-zen-coral);
+    border: 1px solid var(--color-zen-coral);
+    background-color: var(--color-zen-coral-muted);
+  }
+
+  /* Full width images */
+  .article-content a:has(img) {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+
+  .article-content a:has(img):hover {
+    border: none;
+    background-color: transparent;
+  }
+
+  .article-content a > img {
+    width: 100%;
   }
 
   /* Strong/Bold */
@@ -332,4 +367,53 @@ const readingTime = Math.ceil(wordCount / 200);
   .article-content > h2:first-child {
     margin-top: 0;
   }
+
+  /* Scroll animations */
+  .article-content > *:not(script) {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .article-content > *.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .article-content > * {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const articleContent = document.querySelector('.article-content');
+    if (!articleContent) return;
+
+    const elements = articleContent.querySelectorAll(':scope > *:not(script)');
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    elements.forEach(element => {
+      observer.observe(element);
+    });
+  });
+</script>

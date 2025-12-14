@@ -48,6 +48,7 @@ const notes = defineCollection({
     tags: z.array(z.string()),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
+    image: z.string().optional(),
   }),
 });
 
