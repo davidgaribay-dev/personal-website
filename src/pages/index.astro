@@ -38,8 +38,8 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
               <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-tight">
                 David<br />Garibay
               </h1>
-              <p class="text-xl md:text-2xl text-text-secondary leading-relaxed font-light">
-                Building robust automation frameworks, modern web applications, and developer tools that enhance productivity and software quality.
+              <p class="text-xl md:text-2xl leading-relaxed font-light">
+                <span class="text-text-secondary typed-prefix">Building </span><span id="typed-text" class="text-zen-coral"></span>
               </p>
             </div>
           </div>
@@ -182,3 +182,35 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
     </section>
   </div>
 </BaseLayout>
+
+<script>
+  import Typed from 'typed.js';
+
+  new Typed('#typed-text', {
+    strings: [
+      'robust automation frameworks.',
+      'agentic AI tools.',
+      'developer tools that enhance productivity and software quality.',
+      'modern web applications.',
+      'knowledge bases.',
+      '^500breaking, and learning along the way!',
+    ],
+    typeSpeed: 30,
+    backSpeed: 20,
+    backDelay: 1500,
+    startDelay: 300,
+    loop: true,
+    showCursor: true,
+    cursorChar: '|',
+    preStringTyped: (arrayPos) => {
+      const prefix = document.querySelector('.typed-prefix');
+      if (prefix) {
+        if (arrayPos === 5) { // "breaking, and learning" - last string
+          prefix.textContent = 'Building, ';
+        } else {
+          prefix.textContent = 'Building ';
+        }
+      }
+    }
+  });
+</script>
