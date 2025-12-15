@@ -18,7 +18,7 @@ const sortedProjects = projects.sort((a, b) => b.data.order - a.data.order);
         {sortedProjects.map(async (project) => {
           const { Content } = await project.render();
           return (
-            <article class="border-b border-zen-subtle pb-16 last:border-0">
+            <article class="pb-16">
               {project.data.image && (
                 <div class="mb-8">
                   <img
