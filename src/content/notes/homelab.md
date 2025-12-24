@@ -1,26 +1,22 @@
 ---
 title: "Journey Into Homelab: A Beginner's Guide to Self-Hosting"
 description: "Learn how to build your own homelab with Proxmox, Docker, and self-hosted services. From breaking my family's first computer to running local AI models and automation infrastructure."
-publishDate: 2025-12-24
+publishDate: 2025-12-23
 tags: ["homelab", "self-hosting", "proxmox", "docker", "infrastructure", "linux", "local-ai", "agentic-ai"]
 draft: false
 featured: true
 image: "/homelab.jpg"
 ---
 
-Whether you want to self-host services, run local AI models, or build infrastructure for agentic AI experiments, a homelab is the perfect sandbox. This post covers my journey from accidentally destroying my family's first computer to running my own servers with Proxmox, Docker, and everything in between.
-
----
-
 ## The SpongeBob Incident
 
-I've always been curious to learn the inner workings of something but I haven't always been into computers. 
+I've always been curious about the way things work but I haven't always been into computers. 
 
 One of my core memories was back when I was in elementary school, we had just bought our first family computer from one of our neighbors for $400. I remember trying to install a PC game on it via a CD but not having enough storage. Naively, I deleted important files in the C Drive while trying to make space for my game, I don't remember what game it was but it was something to do with SpongeBob. Immediately the computer stopped working and I attempted to reboot it. Except at the time no one in my family knew much about computers so we couldn't get it back to a working state.
 
 We went back to using the public library’s computers and I started learning how to skate instead.
 
-Looking back, I realize that was when I first learned computers aren’t magic, they’re just systems that can break. 
+That was when I first learned computers aren’t magic, they’re just systems that can break. 
 
 ## Why Isolated Environments Matter
 
