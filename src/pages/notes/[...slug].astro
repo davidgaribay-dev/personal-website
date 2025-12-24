@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { siteConfig } from '../../data/site';
 
 // Get the slug from URL params
 const { slug } = Astro.params;
@@ -32,9 +33,43 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
 const content = await post.render();
 const wordCount = content.remarkPluginFrontmatter?.wordCount || 0;
 const readingTime = Math.ceil(wordCount / 200);
+
+// Article structured data for SEO
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "image": post.data.image ? `${siteConfig.url}${post.data.image}` : `${siteConfig.url}/me.jpg`,
+  "datePublished": post.data.publishDate.toISOString(),
+  "dateModified": post.data.updatedDate?.toISOString() || post.data.publishDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": siteConfig.name,
+    "url": siteConfig.url
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": siteConfig.name,
+    "url": siteConfig.url
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `${siteConfig.url}/notes/${slug}`
+  },
+  "keywords": post.data.tags.join(", ")
+};
 ---
 
-<BaseLayout>
+<BaseLayout
+  title={`${post.data.title} | ${siteConfig.name}`}
+  description={post.data.description}
+  image={post.data.image ? `${siteConfig.url}${post.data.image}` : undefined}
+  type="article"
+>
+  <!-- Article structured data -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
   <article class="min-h-screen">
     <!-- Hero Cover Image -->
     {post.data.image && (

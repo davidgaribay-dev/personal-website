@@ -1,11 +1,15 @@
 ---
-title: "Journey Into Homelab"
-description: "How to get started into homelabbing"
+title: "Journey Into Homelab: A Beginner's Guide to Self-Hosting"
+description: "Learn how to build your own homelab with Proxmox, Docker, and self-hosted services. From breaking my family's first computer to running local AI models and automation infrastructure."
 publishDate: 2025-12-24
-tags: ["homelab", "self-hosting", "proxmox", "docker", "infrastructure", "linux"]
+tags: ["homelab", "self-hosting", "proxmox", "docker", "infrastructure", "linux", "local-ai", "agentic-ai"]
 draft: false
 featured: true
 image: "/homelab.jpg"
+---
+
+Whether you want to self-host services, run local AI models, or build infrastructure for agentic AI experiments, a homelab is the perfect sandbox. This post covers my journey from accidentally destroying my family's first computer to running my own servers with Proxmox, Docker, and everything in between.
+
 ---
 
 ## The SpongeBob Incident
@@ -110,10 +114,16 @@ Make sure to use best judgment and never expose a port to the public internet wi
 
 As Linux tells us, with great power comes great responsibility.
 
-<img src="/linux.png" alt="Linux" style="width: 100%; height: auto;" />
+<img src="/linux.png" alt="Tux the Linux penguin mascot reminding us that with great power comes great responsibility" style="width: 100%; height: auto;" />
 
 ## What's Next
 
-I'm constantly learning and adding new services. Some things on my radar: proper monitoring with [Grafana](https://grafana.com/), [Terraform](https://developer.hashicorp.com/terraform) for Infrastructure as Code but mainly because it's brilliantly named, and maybe eventually trying to self-host [GitLab](https://about.gitlab.com/).
+I'm constantly learning and adding new services. Some things on my radar:
+
+- **Monitoring**: Proper observability with [Grafana](https://grafana.com/) and Prometheus for metrics visualization.
+- **Infrastructure as Code**: [Terraform](https://developer.hashicorp.com/terraform) mainly because it's brilliantly named.
+- **Local AI**: Running [Ollama](https://ollama.ai/) for local LLMs. Having your own inference server means you can experiment with AI without API costs or privacy concerns.
+- **Agentic AI Infrastructure**: Building sandboxed environments for AI agents to safely execute code and interact with tools. A homelab is perfect for this since you control the isolation boundaries.
+- **Self-hosted GitLab**: Eventually migrating from Gitea to [GitLab](https://about.gitlab.com/) for CI/CD pipelines.
 
 The beauty of a homelab is that it grows with you. Start simple, break things, learn, and rebuild. That's how you actually learn this stuff. 
