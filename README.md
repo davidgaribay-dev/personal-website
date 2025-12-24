@@ -2,7 +2,7 @@
 
 A modern, fast portfolio website built with Astro and Tailwind CSS. Features server-side rendering, content collections for dynamic content management, and a clean, responsive design.
 
-🔗 **Live:** [davidgaribay.dev](https://davidgaribay.dev)
+**Live:** [davidgaribay.dev](https://davidgaribay.dev)
 
 ## Tech Stack
 
@@ -13,12 +13,12 @@ A modern, fast portfolio website built with Astro and Tailwind CSS. Features ser
 
 ## Features
 
-- ⚡ Server-side rendering (SSR) for dynamic content
-- 📝 Markdown-based content collections
-- 🎨 Custom Tailwind CSS design system
-- 📱 Fully responsive layout
-- 🚀 Optimized performance with Astro's partial hydration
-- 🔍 SEO-friendly meta tags
+- Server-side rendering (SSR) for dynamic content
+- Markdown-based content collections
+- Custom Tailwind CSS design system
+- Fully responsive layout
+- Optimized performance with Astro's partial hydration
+- SEO-friendly meta tags
 
 ## Project Structure
 
