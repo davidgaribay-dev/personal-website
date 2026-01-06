@@ -1,0 +1,58 @@
+---
+interface Props {
+  name: string;
+  logo?: string;
+  href?: string;
+}
+
+const { name, logo, href } = Astro.props;
+---
+
+{href ? (
+  <a href={href} target="_blank" rel="noopener noreferrer" class="tool-badge">
+    {logo && <img src={logo} alt={name} class="tool-badge-logo" />}
+    <span class="tool-badge-name">{name}</span>
+  </a>
+) : (
+  <span class="tool-badge">
+    {logo && <img src={logo} alt={name} class="tool-badge-logo" />}
+    <span class="tool-badge-name">{name}</span>
+  </span>
+)}
+
+<style>
+  .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background: var(--color-zen-bg-secondary);
+    border: 1px solid var(--color-zen-subtle);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0.5rem 0;
+  }
+
+  a.tool-badge:hover {
+    background: var(--color-zen-bg-tertiary);
+    color: var(--color-text-primary);
+    border-color: var(--color-text-tertiary);
+  }
+
+  .tool-badge-logo {
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .tool-badge-name {
+    line-height: 1;
+  }
+</style>

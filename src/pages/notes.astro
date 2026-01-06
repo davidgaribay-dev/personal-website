@@ -21,7 +21,7 @@ const featuredPosts = sortedNotes.filter(post => post.data.featured);
 
 <BaseLayout>
   <div class="min-h-screen py-24 px-6">
-    <div class="container mx-auto max-w-4xl">
+    <div class="container mx-auto max-w-5xl">
       <!-- Header -->
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-6xl font-bold mb-4">Notes</h1>
@@ -43,6 +43,15 @@ const featuredPosts = sortedNotes.filter(post => post.data.featured);
           {sortedNotes.map((post) => (
             <article class="border-b border-zen-subtle pb-12 last:border-0">
               <a href={`/notes/${post.slug}`} class="block group">
+                {post.data.image && (
+                  <div class="mb-6 overflow-hidden rounded-lg">
+                    <img
+                      src={post.data.image}
+                      alt={post.data.title}
+                      class="w-full h-48 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                )}
                 <div class="flex justify-between items-start mb-3">
                   <h2 class="text-3xl font-bold group-hover:text-zen-coral transition-colors">
                     {post.data.title}

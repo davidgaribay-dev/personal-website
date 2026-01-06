@@ -34,12 +34,12 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
           <!-- Text Content - Second on mobile, first on desktop -->
           <div class="space-y-8 order-2 md:order-1 text-center md:text-left">
             <div>
-              <p class="text-text-tertiary text-sm uppercase tracking-wider mb-4">Senior SDET</p>
-              <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-tight">
+              <p class="text-text-tertiary text-xs uppercase tracking-[0.15em] mb-6 font-semibold">Senior SDET</p>
+              <h1 class="text-6xl md:text-8xl font-extrabold mb-8 leading-[0.95] tracking-[-0.03em]">
                 David<br />Garibay
               </h1>
-              <p class="text-xl md:text-2xl leading-relaxed font-light h-16 md:h-20">
-                <span class="text-text-secondary">Building </span><span id="typed-text" class="text-zen-coral"></span>
+              <p class="text-xl md:text-2xl leading-relaxed font-normal h-16 md:h-20">
+                <span class="text-text-secondary">Building </span><span id="typed-text" class="text-zen-coral font-medium"></span>
               </p>
             </div>
           </div>
@@ -52,16 +52,16 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
       <div class="container mx-auto max-w-5xl">
         <div class="grid md:grid-cols-3 gap-12 lg:gap-16">
           <div>
-            <h2 class="text-4xl font-bold mb-3">7+</h2>
-            <p class="text-text-secondary text-lg">Years in Quality Engineering</p>
+            <h2 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-[-0.02em]">7+</h2>
+            <p class="text-text-secondary text-base font-medium">Years in Quality Engineering</p>
           </div>
           <div>
-            <h2 class="text-4xl font-bold mb-3">15+</h2>
-            <p class="text-text-secondary text-lg">Automation Frameworks & Tools Built</p>
+            <h2 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-[-0.02em]">15+</h2>
+            <p class="text-text-secondary text-base font-medium">Automation Frameworks & Tools Built</p>
           </div>
           <div>
-            <h2 class="text-4xl font-bold mb-3">4</h2>
-            <p class="text-text-secondary text-lg">Open Source Projects</p>
+            <h2 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-[-0.02em]">4</h2>
+            <p class="text-text-secondary text-base font-medium">Open Source Projects</p>
           </div>
         </div>
       </div>
@@ -71,8 +71,8 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
     <section class="py-24 px-6 border-t border-zen-subtle">
       <div class="container mx-auto max-w-5xl">
         <div class="mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Selected Work</h2>
-          <p class="text-text-secondary text-lg">Recent projects and automation frameworks.</p>
+          <h2 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-[-0.02em]">Selected Work</h2>
+          <p class="text-text-secondary text-base font-medium">Recent projects and automation frameworks.</p>
         </div>
 
         <div class="space-y-12">
@@ -85,13 +85,13 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
             >
               <div class="pb-8">
                 <div class="flex justify-between items-start mb-4">
-                  <h3 class="text-2xl font-semibold group-hover:text-zen-coral transition-colors">{project.data.title}</h3>
-                  <span class="text-text-tertiary group-hover:text-zen-coral transition-colors">→</span>
+                  <h3 class="text-2xl md:text-3xl font-bold group-hover:text-zen-coral transition-colors tracking-[-0.01em]">{project.data.title}</h3>
+                  <span class="text-text-tertiary group-hover:text-zen-coral transition-colors text-2xl">→</span>
                 </div>
-                <p class="text-text-secondary mb-4 leading-relaxed max-w-3xl">{project.data.description}</p>
+                <p class="text-text-secondary mb-4 leading-relaxed max-w-3xl font-normal">{project.data.description}</p>
                 <div class="flex flex-wrap gap-3">
                   {project.data.technologies.map((tech) => (
-                    <span class="text-text-tertiary text-sm">
+                    <span class="text-text-tertiary text-sm font-medium">
                       {tech}
                     </span>
                   ))}
@@ -116,21 +116,21 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
     <section class="py-24 px-6 border-t border-zen-subtle">
       <div class="container mx-auto max-w-5xl">
         <div class="mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Current Role</h2>
+          <h2 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-[-0.02em]">Current Role</h2>
         </div>
 
         {sortedExperiences.slice(0, 1).map((exp) => (
           <div class="space-y-6">
             <div>
-              <h3 class="text-2xl font-semibold mb-2">{exp.data.position}</h3>
-              <p class="text-zen-coral text-xl mb-2">{exp.data.company}</p>
-              <p class="text-text-tertiary">
+              <h3 class="text-2xl md:text-3xl font-bold mb-2 tracking-[-0.01em]">{exp.data.position}</h3>
+              <p class="text-zen-coral text-xl mb-2 font-semibold">{exp.data.company}</p>
+              <p class="text-text-tertiary font-medium">
                 {exp.data.startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - Present
               </p>
             </div>
             <div class="flex flex-wrap gap-3">
               {exp.data.technologies.map((tech) => (
-                <span class="text-text-secondary">
+                <span class="text-text-secondary text-sm font-medium">
                   {tech}
                 </span>
               ))}
@@ -153,10 +153,10 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
     <section class="py-24 px-6 border-t border-zen-subtle">
       <div class="container mx-auto max-w-5xl">
         <div class="max-w-3xl">
-          <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight tracking-tight">
+          <h2 class="text-4xl md:text-6xl font-extrabold mb-8 leading-tight tracking-[-0.02em]">
             Get in touch
           </h2>
-          <p class="text-text-secondary text-xl mb-10 leading-relaxed font-light">
+          <p class="text-text-secondary text-lg md:text-xl mb-10 leading-relaxed font-normal">
             Always happy to chat about testing strategies, automation frameworks, or interesting projects.
           </p>
           <div class="flex gap-6 flex-wrap">
@@ -164,17 +164,17 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
               href="https://www.linkedin.com/in/david--garibay/"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-text-primary hover:text-text-secondary transition-colors text-lg font-medium underline underline-offset-4"
+              class="text-zen-coral hover:text-zen-coral-hover transition-colors text-base font-semibold"
             >
-              LinkedIn
+              LinkedIn →
             </a>
             <a
               href="https://github.com/davidgaribay-dev"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-text-primary hover:text-text-secondary transition-colors text-lg font-medium underline underline-offset-4"
+              class="text-zen-coral hover:text-zen-coral-hover transition-colors text-base font-semibold"
             >
-              GitHub
+              GitHub →
             </a>
           </div>
         </div>

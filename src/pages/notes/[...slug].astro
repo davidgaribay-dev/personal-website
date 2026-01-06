@@ -83,7 +83,7 @@ const articleSchema = {
     )}
 
     <div class="px-6 pb-24">
-      <div class="mx-auto max-w-3xl">
+      <div class="mx-auto max-w-4xl">
         <!-- Back Link -->
         <a
           href="/notes"
@@ -249,20 +249,29 @@ const articleSchema = {
   .article-content code:not(pre code) {
     font-family: var(--font-family-mono);
     font-size: 0.875em;
-    background: var(--color-zen-bg-secondary);
-    color: #e01e5a;
+    background: var(--color-code-inline-bg);
+    color: var(--color-code-inline);
     padding: 0.125em 0.375em;
     border-radius: 0.1875rem;
     font-weight: 500;
   }
 
   /* Code blocks */
+  .article-content .code-block-wrapper {
+    position: relative;
+    margin: 2rem 0;
+  }
+
+  .article-content .code-block-wrapper pre {
+    margin: 0;
+  }
+
   .article-content pre {
     font-family: var(--font-family-mono);
     font-size: 0.875rem; /* 14px */
     line-height: 1.6;
-    background: var(--color-zen-bg-secondary);
-    border: 1px solid var(--color-zen-subtle);
+    background: var(--color-code-bg);
+    border: 1px solid var(--color-code-border);
     border-radius: 0.375rem;
     padding: 1.25rem 1.5rem;
     margin: 2rem 0;
@@ -275,8 +284,38 @@ const articleSchema = {
     border: none;
     padding: 0;
     font-size: inherit;
-    color: var(--color-text-primary);
+    color: var(--color-code-text);
     font-weight: 400;
+  }
+
+  /* Copy button */
+  .article-content .copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.375rem 0.625rem;
+    background: var(--color-zen-bg-secondary);
+    border: 1px solid var(--color-zen-subtle);
+    border-radius: 0.25rem;
+    font-family: var(--font-family-sans);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+  }
+
+  .article-content .code-block-wrapper:hover .copy-button {
+    opacity: 1;
+  }
+
+  .article-content .copy-button:hover {
+    background: var(--color-zen-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .article-content .copy-button.copied {
+    color: #22c55e;
   }
 
   /* Lists */
@@ -337,9 +376,49 @@ const articleSchema = {
   .article-content img {
     max-width: 100%;
     height: auto;
-    border-radius: 0.5rem;
+    border-radius: 0;
     margin: 2.5rem 0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: none;
+  }
+
+  /* Tool Badge - for citing tools/apps inline */
+  .article-content p:has(.tool-badge) {
+    display: inline-block;
+  }
+
+  .article-content .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    background: var(--color-zen-bg-secondary);
+    border: 1px solid var(--color-zen-subtle);
+    border-radius: 9999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0.5rem 0;
+  }
+
+  .article-content a.tool-badge {
+    border-bottom: none;
+  }
+
+  .article-content a.tool-badge:hover {
+    background: var(--color-zen-bg-tertiary);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-text-tertiary);
+  }
+
+  .article-content .tool-badge img {
+    width: 2.25rem;
+    height: 2.25rem;
+    object-fit: contain;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   /* Horizontal rules */
@@ -429,6 +508,49 @@ const articleSchema = {
   document.addEventListener('DOMContentLoaded', () => {
     const articleContent = document.querySelector('.article-content');
     if (!articleContent) return;
+
+    // Make all external links open in new tab
+    const links = articleContent.querySelectorAll('a[href^="http"]');
+    links.forEach(link => {
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
+    });
+
+    // Add copy buttons to code blocks
+    const codeBlocks = articleContent.querySelectorAll('pre');
+    codeBlocks.forEach(pre => {
+      // Create wrapper
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block-wrapper';
+      pre.parentNode?.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      // Create copy button
+      const copyButton = document.createElement('button');
+      copyButton.className = 'copy-button';
+      copyButton.textContent = 'Copy';
+      copyButton.setAttribute('aria-label', 'Copy code to clipboard');
+      wrapper.appendChild(copyButton);
+
+      // Handle click
+      copyButton.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.textContent || pre.textContent || '';
+        try {
+          await navigator.clipboard.writeText(code);
+          copyButton.textContent = 'Copied!';
+          copyButton.classList.add('copied');
+          setTimeout(() => {
+            copyButton.textContent = 'Copy';
+            copyButton.classList.remove('copied');
+          }, 2000);
+        } catch (err) {
+          copyButton.textContent = 'Failed';
+          setTimeout(() => {
+            copyButton.textContent = 'Copy';
+          }, 2000);
+        }
+      });
+    });
 
     const elements = articleContent.querySelectorAll(':scope > *:not(script)');
 
