@@ -72,7 +72,7 @@ const articleSchema = {
 
   <article class="min-h-screen">
     <!-- Hero Cover Image -->
-    {post.data.image && (
+    {post.data.image && !post.data.hideHeroImage && (
       <div class="w-full mb-12">
         <img
           src={post.data.image}

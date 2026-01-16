@@ -51,6 +51,7 @@ const posts = defineCollection({
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
     image: z.string().optional(),
+    hideHeroImage: z.boolean().default(false),
   }),
 });
 

@@ -1,5 +1,5 @@
 ---
-title: "Journey Into Homelab: A Beginner's Guide to Self-Hosting"
+title: "Whats a homelab?"
 description: "Learn how to build your own homelab with Proxmox, Docker, and self-hosted services. From breaking my family's first computer to running local AI models and automation infrastructure."
 publishDate: 2025-12-23
 tags: ["homelab", "self-hosting", "proxmox", "docker", "infrastructure", "linux", "local-ai", "agentic-ai"]

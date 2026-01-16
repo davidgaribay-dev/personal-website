@@ -14,6 +14,7 @@ export const siteConfig = {
   social: {
     github: 'https://github.com/davidgaribay-dev',
     linkedin: 'https://www.linkedin.com/in/david--garibay/',
+    youtube: 'https://www.youtube.com/@SecondWindAI',
   },
 
   navigation: [
