@@ -29,7 +29,7 @@ dmg-portfolio/
 │   ├── components/      # Reusable UI components
 │   ├── content/         # Content collections (markdown)
 │   │   ├── experience/  # Work experience entries
-│   │   ├── notes/       # Blog posts/notes
+│   │   ├── posts/       # Blog posts
 │   │   ├── projects/    # Project showcases
 │   │   └── recommendations/  # Professional recommendations
 │   ├── data/            # Site configuration (site.ts)

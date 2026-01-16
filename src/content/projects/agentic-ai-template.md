@@ -2,6 +2,7 @@
 title: "Agentic AI Template"
 description: "A full-stack AI agent template showcasing enterprise patterns. Features real-time streaming conversations, LangGraph-based agents, multi-tenant architecture, and comprehensive audit logging. Work in progress."
 image: "/template.png"
+hideHeroImage: true
 link: "https://github.com/davidgaribay-dev/agentic-ai-template"
 github: "https://github.com/davidgaribay-dev/agentic-ai-template"
 technologies:

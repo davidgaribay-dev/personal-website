@@ -2,21 +2,21 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Get all notes entries
-const allNotes = await getCollection('notes', ({ data }) => {
+// Get all posts entries
+const allPosts = await getCollection('posts', ({ data }) => {
   return data.draft !== true;
 });
 
 // Sort by publish date (newest first)
-const sortedNotes = allNotes.sort((a, b) =>
+const sortedPosts = allPosts.sort((a, b) =>
   b.data.publishDate.getTime() - a.data.publishDate.getTime()
 );
 
 // Get unique tags
-const allTags = [...new Set(allNotes.flatMap(post => post.data.tags))].sort();
+const allTags = [...new Set(allPosts.flatMap(post => post.data.tags))].sort();
 
 // Featured posts
-const featuredPosts = sortedNotes.filter(post => post.data.featured);
+const featuredPosts = sortedPosts.filter(post => post.data.featured);
 ---
 
 <BaseLayout>
@@ -24,25 +24,25 @@ const featuredPosts = sortedNotes.filter(post => post.data.featured);
     <div class="container mx-auto max-w-5xl">
       <!-- Header -->
       <div class="text-center mb-16">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">Notes</h1>
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Posts</h1>
         <p class="text-text-secondary text-lg md:text-xl">
           Thoughts on software testing, automation, development, and lessons learned along the way
         </p>
       </div>
 
       {/* All Posts Section */}
-      {sortedNotes.length === 0 ? (
+      {sortedPosts.length === 0 ? (
         <div class="text-center py-32">
-          <h2 class="text-3xl font-bold mb-4">No notes yet</h2>
+          <h2 class="text-3xl font-bold mb-4">No posts yet</h2>
           <p class="text-text-secondary text-lg">
             I'm working on some great content. Check back soon!
           </p>
         </div>
       ) : (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sortedNotes.map((post) => (
+          {sortedPosts.map((post) => (
             <article class="group">
-              <a href={`/notes/${post.slug}`} class="block">
+              <a href={`/posts/${post.slug}`} class="block">
                 {post.data.image && (
                   <div class="mb-4 overflow-hidden rounded-lg aspect-video">
                     <img

@@ -54,7 +54,7 @@ const projectSchema = {
 
   <article class="min-h-screen">
     <!-- Hero Cover Image -->
-    {project.data.image && (
+    {project.data.image && !project.data.hideHeroImage && (
       <div class="w-full mb-12">
         <img
           src={project.data.image}

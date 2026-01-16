@@ -7,11 +7,11 @@ import { siteConfig } from '../../data/site';
 const { slug } = Astro.params;
 
 // Fetch the post entry
-const post = await getEntry('notes', slug || '');
+const post = await getEntry('posts', slug || '');
 
 // Handle case where post doesn't exist or is a draft
 if (!post || post.data.draft) {
-  return Astro.redirect('/notes');
+  return Astro.redirect('/posts');
 }
 
 const { Content } = await post.render();
@@ -55,7 +55,7 @@ const articleSchema = {
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": `${siteConfig.url}/notes/${slug}`
+    "@id": `${siteConfig.url}/posts/${slug}`
   },
   "keywords": post.data.tags.join(", ")
 };
@@ -86,10 +86,10 @@ const articleSchema = {
       <div class="mx-auto max-w-4xl">
         <!-- Back Link -->
         <a
-          href="/notes"
+          href="/posts"
           class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-16 font-medium"
         >
-          <span aria-hidden="true">←</span> Back to Notes
+          <span aria-hidden="true">←</span> Back to Posts
         </a>
 
         <!-- Article Header -->
@@ -139,10 +139,10 @@ const articleSchema = {
       <!-- Article Footer -->
       <footer class="mt-20 pt-10 border-t border-zen-subtle">
         <a
-          href="/notes"
+          href="/posts"
           class="inline-flex items-center gap-2 text-text-primary hover:text-text-secondary transition-colors font-medium underline underline-offset-4"
         >
-          <span aria-hidden="true">←</span> Back to all notes
+          <span aria-hidden="true">←</span> Back to all posts
         </a>
       </footer>
     </div>

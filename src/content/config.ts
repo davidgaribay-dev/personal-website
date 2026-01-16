@@ -18,7 +18,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    image: z.string(),
+    image: z.string().optional(),
+    hideHeroImage: z.boolean().default(false),
     link: z.string().url(),
     github: z.string().url().optional(),
     technologies: z.array(z.string()),
@@ -39,7 +40,7 @@ const recommendations = defineCollection({
   }),
 });
 
-const notes = defineCollection({
+const posts = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
@@ -53,4 +54,4 @@ const notes = defineCollection({
   }),
 });
 
-export const collections = { experience, projects, recommendations, notes };
+export const collections = { experience, projects, recommendations, posts };
