@@ -39,37 +39,35 @@ const featuredPosts = sortedNotes.filter(post => post.data.featured);
           </p>
         </div>
       ) : (
-        <div class="space-y-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sortedNotes.map((post) => (
-            <article class="border-b border-zen-subtle pb-12 last:border-0">
-              <a href={`/notes/${post.slug}`} class="block group">
+            <article class="group">
+              <a href={`/notes/${post.slug}`} class="block">
                 {post.data.image && (
-                  <div class="mb-6 overflow-hidden rounded-lg">
+                  <div class="mb-4 overflow-hidden rounded-lg aspect-video">
                     <img
                       src={post.data.image}
                       alt={post.data.title}
-                      class="w-full h-48 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 )}
-                <div class="flex justify-between items-start mb-3">
-                  <h2 class="text-3xl font-bold group-hover:text-zen-coral transition-colors">
-                    {post.data.title}
-                  </h2>
-                  <time class="text-sm text-text-tertiary whitespace-nowrap ml-4">
-                    {post.data.publishDate.toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric'
-                    })}
-                  </time>
-                </div>
-                <p class="text-text-secondary text-lg mb-6 leading-relaxed">
+                <time class="text-xs text-text-tertiary mb-2 block">
+                  {post.data.publishDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}
+                </time>
+                <h2 class="text-xl font-bold mb-2 group-hover:text-zen-coral transition-colors line-clamp-2">
+                  {post.data.title}
+                </h2>
+                <p class="text-text-secondary text-sm mb-4 leading-relaxed line-clamp-3">
                   {post.data.description}
                 </p>
-                <div class="flex flex-wrap gap-3">
-                  {post.data.tags.map((tag) => (
-                    <span class="text-text-tertiary text-sm">
+                <div class="flex flex-wrap gap-2">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span class="text-text-tertiary text-xs">
                       #{tag}
                     </span>
                   ))}

@@ -78,9 +78,7 @@ const sortedExperiences = experiences.sort((a, b) => b.data.order - a.data.order
         <div class="space-y-12">
           {featuredProjects.slice(0, 3).map((project) => (
             <a
-              href={project.data.link}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/projects/${project.slug}`}
               class="block group"
             >
               <div class="pb-8">

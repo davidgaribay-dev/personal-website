@@ -24,6 +24,7 @@ const projects = defineCollection({
     technologies: z.array(z.string()),
     featured: z.boolean().default(false),
     order: z.number(),
+    videoUrl: z.string().url().optional(),
   }),
 });
 
