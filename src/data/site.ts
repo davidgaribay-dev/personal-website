@@ -15,6 +15,7 @@ export const siteConfig = {
     github: 'https://github.com/davidgaribay-dev',
     linkedin: 'https://www.linkedin.com/in/david--garibay/',
     youtube: 'https://www.youtube.com/@SecondWindAI',
+    email: 'contact@davidmg.dev',
   },
 
   navigation: [
