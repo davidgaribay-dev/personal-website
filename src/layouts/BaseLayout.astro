@@ -69,6 +69,20 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Prevent FOUC: hide body until CSS loads -->
+    <style>
+      body { opacity: 0; }
+      body.loaded { opacity: 1; transition: opacity 0.1s ease-in; }
+    </style>
+    <script is:inline>
+      // Show body as soon as DOM is ready (CSS will have loaded by then)
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('loaded'));
+      } else {
+        document.body?.classList.add('loaded');
+      }
+    </script>
+
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
