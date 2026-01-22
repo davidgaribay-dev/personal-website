@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'David Garibay',
-  title: 'David Garibay | SDET & Software Engineer',
-  description: 'Software Development Engineer in Test specializing in automation frameworks with Playwright, Selenium, and Cypress.',
+  title: 'David Garibay | Senior SDET | Agentic AI',
+  description: 'Senior SDET specializing in Agentic AI, test automation frameworks, and developer productivity tools. Building with Claude Code, React, TypeScript, and modern web technologies.',
   url: 'https://davidgaribay.dev',
 
   location: {

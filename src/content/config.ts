@@ -52,6 +52,7 @@ const posts = defineCollection({
     featured: z.boolean().default(false),
     image: z.string().optional(),
     hideHeroImage: z.boolean().default(false),
+    videoUrl: z.string().url().optional(),
   }),
 });
 

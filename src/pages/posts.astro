@@ -19,7 +19,10 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags))].sort();
 const featuredPosts = sortedPosts.filter(post => post.data.featured);
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="David Garibay's Blog - Agentic AI, Test Automation, and Developer Tools"
+  description="Read technical articles on Agentic AI, Claude Code, test automation frameworks, homelab infrastructure, and modern developer tools. Guides, tutorials, and insights from a Senior SDET."
+>
   <div class="min-h-screen py-24 px-6">
     <div class="container mx-auto max-w-5xl">
       <!-- Header -->
@@ -62,17 +65,17 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured);
                 <h2 class="text-xl font-bold mb-2 group-hover:text-zen-coral transition-colors line-clamp-2">
                   {post.data.title}
                 </h2>
-                <p class="text-text-secondary text-sm mb-4 leading-relaxed line-clamp-3">
-                  {post.data.description}
-                </p>
-                <div class="flex flex-wrap gap-2">
-                  {post.data.tags.slice(0, 3).map((tag) => (
-                    <span class="text-text-tertiary text-xs">
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
               </a>
+              <div class="flex flex-wrap gap-2 mt-2">
+                {post.data.tags.slice(0, 3).map((tag) => (
+                  <a
+                    href={`/posts/tags/${tag}`}
+                    class="text-text-tertiary hover:text-zen-coral transition-colors text-xs"
+                  >
+                    #{tag}
+                  </a>
+                ))}
+              </div>
             </article>
           ))}
         </div>

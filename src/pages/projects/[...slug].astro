@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import { siteConfig } from '../../data/site';
 
 // Get the slug from URL params
@@ -15,6 +15,21 @@ if (!project) {
 }
 
 const { Content } = await project.render();
+
+// Get related projects by matching technologies
+const allProjects = await getCollection('projects', ({ slug: projSlug }) => {
+  return projSlug !== slug; // Exclude current project
+});
+
+const relatedProjects = allProjects
+  .map(p => ({
+    project: p,
+    matchCount: p.data.technologies.filter(tech => project.data.technologies.includes(tech)).length
+  }))
+  .filter(item => item.matchCount > 0) // Only projects with at least one matching technology
+  .sort((a, b) => b.matchCount - a.matchCount)
+  .slice(0, 3)
+  .map(item => item.project);
 
 // Extract YouTube video ID from URL if present
 function getYouTubeEmbedUrl(url: string): string | null {
@@ -48,6 +63,11 @@ const projectSchema = {
   title={`${project.data.title} | ${siteConfig.name}`}
   description={project.data.description}
   image={project.data.image ? `${siteConfig.url}${project.data.image}` : undefined}
+  breadcrumbs={[
+    { name: "Home", url: siteConfig.url },
+    { name: "Projects", url: `${siteConfig.url}/projects` },
+    { name: project.data.title, url: `${siteConfig.url}/projects/${slug}` }
+  ]}
 >
   <!-- Project structured data -->
   <script is:inline type="application/ld+json" set:html={JSON.stringify(projectSchema)} />
@@ -141,6 +161,40 @@ const projectSchema = {
         <div class="article-content">
           <Content />
         </div>
+
+        <!-- Related Projects -->
+        {relatedProjects.length > 0 && (
+          <div class="mt-20 pt-10 border-t border-zen-subtle">
+            <h2 class="text-3xl font-bold mb-8">Similar Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {relatedProjects.map((relatedProject) => (
+                <article class="group">
+                  <a href={`/projects/${relatedProject.slug}`} class="block">
+                    {relatedProject.data.image && (
+                      <div class="mb-4 overflow-hidden rounded-lg aspect-video">
+                        <img
+                          src={relatedProject.data.image}
+                          alt={relatedProject.data.title}
+                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+                    <h3 class="text-xl font-bold mb-2 group-hover:text-zen-coral transition-colors line-clamp-2">
+                      {relatedProject.data.title}
+                    </h3>
+                  </a>
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    {relatedProject.data.technologies.slice(0, 3).map((tech) => (
+                      <span class="text-text-tertiary text-xs">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
 
         <!-- Project Footer -->
         <footer class="mt-20 pt-10 border-t border-zen-subtle">

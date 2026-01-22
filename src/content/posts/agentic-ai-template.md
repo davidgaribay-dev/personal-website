@@ -1,7 +1,7 @@
 ---
 title: "Challenging my mental model about agentic AI"
 description: "How Claude Code changed my approach to learning and weekend projects, from building an open-source agentic AI template to reconstructing my homelab for long-horizon agents."
-publishDate: 2025-01-15
+publishDate: 2026-01-15
 tags: ["agentic-ai", "claude-code", "homelab", "proxmox", "terraform", "ansible", "infrastructure"]
 draft: false
 featured: true

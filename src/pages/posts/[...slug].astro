@@ -16,6 +16,35 @@ if (!post || post.data.draft) {
 
 const { Content } = await post.render();
 
+// Get related posts by matching tags
+const allPosts = await getCollection('posts', ({ data, slug: postSlug }) => {
+  return (
+    postSlug !== slug && // Exclude current post
+    !data.draft
+  );
+});
+
+const relatedPosts = allPosts
+  .map(p => ({
+    post: p,
+    matchCount: p.data.tags.filter(tag => post.data.tags.includes(tag)).length
+  }))
+  .filter(item => item.matchCount > 0) // Only posts with at least one matching tag
+  .sort((a, b) => b.matchCount - a.matchCount)
+  .slice(0, 3)
+  .map(item => item.post);
+
+// Extract YouTube video ID from URL if present
+function getYouTubeEmbedUrl(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+  if (match) {
+    return `https://www.youtube.com/embed/${match[1]}`;
+  }
+  return null;
+}
+
+const embedUrl = post.data.videoUrl ? getYouTubeEmbedUrl(post.data.videoUrl) : null;
+
 // Format dates
 const publishDate = post.data.publishDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -59,6 +88,18 @@ const articleSchema = {
   },
   "keywords": post.data.tags.join(", ")
 };
+
+// Video schema for posts with videos
+const videoSchema = post.data.videoUrl && embedUrl ? {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": post.data.title,
+  "description": post.data.description,
+  "thumbnailUrl": post.data.image ? `${siteConfig.url}${post.data.image}` : `${siteConfig.url}/me.jpg`,
+  "uploadDate": post.data.publishDate.toISOString(),
+  "contentUrl": post.data.videoUrl,
+  "embedUrl": embedUrl
+} : null;
 ---
 
 <BaseLayout
@@ -66,9 +107,18 @@ const articleSchema = {
   description={post.data.description}
   image={post.data.image ? `${siteConfig.url}${post.data.image}` : undefined}
   type="article"
+  breadcrumbs={[
+    { name: "Home", url: siteConfig.url },
+    { name: "Posts", url: `${siteConfig.url}/posts` },
+    { name: post.data.title, url: `${siteConfig.url}/posts/${slug}` }
+  ]}
 >
   <!-- Article structured data -->
   <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  {videoSchema && (
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
+  )}
 
   <article class="min-h-screen">
     <!-- Hero Cover Image -->
@@ -98,7 +148,7 @@ const articleSchema = {
             {post.data.title}
           </h1>
 
-          <div class="flex flex-wrap items-center gap-3 text-text-tertiary text-sm mb-8">
+          <div class="flex flex-wrap items-center gap-3 text-text-tertiary text-sm">
             <time datetime={post.data.publishDate.toISOString()}>
               {publishDate}
             </time>
@@ -115,29 +165,86 @@ const articleSchema = {
               </>
             )}
           </div>
-
-          <p class="text-xl text-text-secondary leading-relaxed font-light mb-8">
-            {post.data.description}
-          </p>
-
-          {post.data.tags.length > 0 && (
-            <div class="flex flex-wrap gap-3">
-              {post.data.tags.map((tag) => (
-                <span class="text-text-tertiary text-sm">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
         </header>
+
+        <!-- Video Embed -->
+        {embedUrl && (
+          <div class="mb-16">
+            <div class="aspect-video w-full">
+              <iframe
+                src={embedUrl}
+                title={`${post.data.title} video`}
+                class="w-full h-full rounded-lg border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              />
+            </div>
+          </div>
+        )}
 
       <!-- Article Content -->
       <div class="article-content">
         <Content />
       </div>
 
+      <!-- Related Posts -->
+      {relatedPosts.length > 0 && (
+        <div class="mt-20 pt-10 border-t border-zen-subtle">
+          <h2 class="text-3xl font-bold mb-8">Related Articles</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {relatedPosts.map((relatedPost) => (
+              <article class="group">
+                <a href={`/posts/${relatedPost.slug}`} class="block">
+                  {relatedPost.data.image && (
+                    <div class="mb-4 overflow-hidden rounded-lg aspect-video">
+                      <img
+                        src={relatedPost.data.image}
+                        alt={relatedPost.data.title}
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  <time class="text-xs text-text-tertiary mb-2 block">
+                    {relatedPost.data.publishDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </time>
+                  <h3 class="text-xl font-bold mb-2 group-hover:text-zen-coral transition-colors line-clamp-2">
+                    {relatedPost.data.title}
+                  </h3>
+                </a>
+                <div class="flex flex-wrap gap-2 mt-2">
+                  {relatedPost.data.tags.slice(0, 3).map((tag) => (
+                    <a
+                      href={`/posts/tags/${tag}`}
+                      class="text-text-tertiary hover:text-zen-coral transition-colors text-xs"
+                    >
+                      #{tag}
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+
       <!-- Article Footer -->
       <footer class="mt-20 pt-10 border-t border-zen-subtle">
+        {post.data.tags.length > 0 && (
+          <div class="flex flex-wrap gap-3 mb-8">
+            {post.data.tags.map((tag) => (
+              <a
+                href={`/posts/tags/${tag}`}
+                class="text-text-tertiary hover:text-zen-coral transition-colors text-sm"
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+        )}
         <a
           href="/posts"
           class="inline-flex items-center gap-2 text-text-primary hover:text-text-secondary transition-colors font-medium underline underline-offset-4"

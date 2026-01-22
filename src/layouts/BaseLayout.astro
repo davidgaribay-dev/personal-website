@@ -10,6 +10,7 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   canonicalURL?: string;
+  breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
 const {
@@ -17,7 +18,8 @@ const {
   description = siteConfig.description,
   image = `${siteConfig.url}/me.jpg`,
   type = 'website',
-  canonicalURL = new URL(Astro.url.pathname, siteConfig.url).href
+  canonicalURL = new URL(Astro.url.pathname, siteConfig.url).href,
+  breadcrumbs
 } = Astro.props;
 
 const structuredData = {
@@ -26,7 +28,7 @@ const structuredData = {
   "name": "David Garibay",
   "url": siteConfig.url,
   "image": `${siteConfig.url}/me.jpg`,
-  "jobTitle": "Software Development Engineer in Test (SDET)",
+  "jobTitle": "Senior Software Development Engineer in Test (SDET)",
   "description": description,
   "address": {
     "@type": "PostalAddress",
@@ -45,20 +47,39 @@ const structuredData = {
   },
   "sameAs": [
     siteConfig.social.linkedin,
-    siteConfig.social.github
+    siteConfig.social.github,
+    siteConfig.social.youtube
   ],
   "knowsAbout": [
-    "Playwright",
-    "Selenium",
-    "Cypress",
+    "Agentic AI",
+    "Claude Code",
+    "AI Agents",
+    "Model Context Protocol (MCP)",
+    "Context Engineering",
+    "LangGraph",
     "Test Automation",
+    "Playwright",
     "TypeScript",
+    "React",
+    "FastAPI",
     "Python",
-    "JavaScript",
-    "Software Testing",
-    "Quality Assurance"
+    "Proxmox",
+    "Infrastructure as Code",
+    "Docker",
+    "Software Testing"
   ]
 };
+
+const breadcrumbSchema = breadcrumbs ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((crumb, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": crumb.name,
+    "item": crumb.url
+  }))
+} : null;
 ---
 
 <!DOCTYPE html>
@@ -72,7 +93,7 @@ const structuredData = {
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content="David Garibay" />
-    <meta name="keywords" content="David Garibay, SDET, Software Development Engineer in Test, Test Automation, Playwright, Selenium, Cypress, QA Engineer, Software Testing, Automation Framework, Raleigh NC, Durham NC, Chapel Hill NC, Raleigh-Durham-Chapel Hill Area, North Carolina" />
+    <meta name="keywords" content="David Garibay, Agentic AI, Claude Code, AI Agents, MCP, Model Context Protocol, Context Engineering, LangGraph, SDET, Test Automation, Playwright, TypeScript, React, FastAPI, Python, Proxmox, Homelab, Infrastructure as Code, Software Testing, Raleigh NC, Durham NC, North Carolina" />
     <meta name="geo.region" content="US-NC" />
     <meta name="geo.placename" content="Raleigh-Durham-Chapel Hill Area" />
     <meta name="geo.position" content="35.7796;-78.6382" />
@@ -100,9 +121,14 @@ const structuredData = {
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
 
     <!-- Robots -->
     <meta name="robots" content="index, follow" />
